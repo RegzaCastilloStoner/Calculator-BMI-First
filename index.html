@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kalkulator BMI Regza</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #dfe9f3, #ffffff);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    h1 { margin-bottom: 10px; color: #2c3e50; }
+    p { font-size: 14px; color: #555; margin-bottom: 20px; }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover { background-color: #219150; }
+    #hasil {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    footer {
+      margin-top: 30px;
+      font-size: 13px;
+      color: #888;
+    }
+    footer a {
+      color: #27ae60;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Kalkulator BMI</h1>
+    <p>Masukkan data kamu:</p>
+
+    <select id="gender">
+      <option value="pria">Pria</option>
+      <option value="wanita">Wanita</option>
+    </select>
+    <input type="number" id="umur" placeholder="Umur (tahun)" />
+    <input type="number" id="berat" placeholder="Berat (kg)" />
+    <input type="number" id="tinggi" placeholder="Tinggi (cm)" />
+    <button onclick="hitungBMI()">Hitung BMI</button>
+
+    <div id="hasil"></div>
+
+    <footer>
+      Dibuat oleh <a href="https://www.instagram.com/_regzacastillo?igsh=cGhsd3V0ZWY4YWlh" target="_blank">@_regzacastillo</a>
+    </footer>
+  </div>
+
+  <script>
+    function hitungBMI() {
+      const gender = document.getElementById("gender").value;
+      const umur = parseInt(document.getElementById("umur").value);
+      const berat = parseFloat(document.getElementById("berat").value);
+      const tinggi = parseFloat(document.getElementById("tinggi").value) / 100;
+      const hasil = document.getElementById("hasil");
+
+      if (!umur || !berat || !tinggi || umur <= 0 || berat <= 0 || tinggi <= 0) {
+        hasil.innerText = "Masukkan data yang valid!";
+        hasil.style.color = "#e74c3c";
+        return;
+      }
+
+      const bmi = berat / (tinggi * tinggi);
+      let kategori = "";
+      let warna = "#34495e";
+
+      if (gender === "pria") {
+        if (umur < 18) kategori = "Remaja pria – konsultasi dokter";
+        else if (bmi < 18.5) { kategori = "Kurus"; warna = "#3498db"; }
+        else if (bmi < 25) { kategori = "Normal"; warna = "#2ecc71"; }
+        else if (bmi < 30) { kategori = "Gemuk"; warna = "#f39c12"; }
+        else { kategori = "Obesitas"; warna = "#e74c3c"; }
+      } else {
+        if (umur < 18) kategori = "Remaja wanita – konsultasi dokter";
+        else if (bmi < 18) { kategori = "Kurus"; warna = "#3498db"; }
+        else if (bmi < 24) { kategori = "Normal"; warna = "#2ecc71"; }
+        else if (bmi < 29) { kategori = "Gemuk"; warna = "#f39c12"; }
+        else { kategori = "Obesitas"; warna = "#e74c3c"; }
+      }
+
+      hasil.innerText = `Umur: ${umur} tahun\nBMI: ${bmi.toFixed(2)}\nKategori: ${kategori}`;
+      hasil.style.color = warna;
+    }
+  </script>
+</body>
+</html>
